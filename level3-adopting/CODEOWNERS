@@ -1,0 +1,9 @@
+# Default owners for everything
+* @acme/backend-team
+
+# API routes require senior review
+src/routes/ @acme/backend-leads
+
+# Security-sensitive files
+.github/ @acme/platform-team
+package*.json @acme/platform-team
