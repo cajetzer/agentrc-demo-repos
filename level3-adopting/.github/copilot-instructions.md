@@ -21,7 +21,8 @@ Express.js REST API for ACME Corp user management. Built with TypeScript, tested
 ## Architecture
 ```
 src/
-├── index.js      # Main Express app, route definitions
+├── index.ts      # Main Express app, route definitions
+├── users.ts      # User data layer
 ├── routes/       # Route handlers (future)
 ├── middleware/   # Custom middleware (future)
 └── utils/        # Utility functions (future)

@@ -67,8 +67,8 @@ agentrc readiness --visual
 cd ../level3-adopting
 
 # agentrc already told us: AGENTS.md and copilot-instructions.md are diverging
-# Fix: make copilot-instructions.md reference AGENTS.md
-echo "See AGENTS.md for all agent instructions." > .github/copilot-instructions.md
+# Fix: consolidate by copying AGENTS.md content into copilot-instructions.md
+cp AGENTS.md .github/copilot-instructions.md
 
 # Re-run — consistency check now passes
 agentrc readiness --visual
@@ -81,9 +81,11 @@ agentrc readiness --visual
 | | level1-brownfield | level2-documented | level3-adopting |
 |--|--|--|--|
 | **Repo Health** | 🟢 High | 🟢 High | 🟢 High |
-| **AI Tooling** | 🔴 0% | 🟡 ~13% | 🟡 ~40% (divergence flag) |
-| **After `agentrc init`** | 🟢 High | — | — |
-| **After fixing divergence** | — | — | 🟢 High |
+| **AI Tooling** | 🔴 0% | 🟡 Low | 🟡 Moderate (divergence flag) |
+| **After `agentrc init`** | 🟢 Improved | — | — |
+| **After fixing divergence** | — | — | 🟢 Improved |
+
+> **Note:** Exact percentages depend on the agentrc version. Run `agentrc readiness --visual` to see current scores.
 
 ---
 

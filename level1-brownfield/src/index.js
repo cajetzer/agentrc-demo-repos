@@ -1,6 +1,9 @@
 'use strict';
 
 const express = require('express');
+const pino = require('pino');
+
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 const app = express();
 
 app.use(express.json());
@@ -37,6 +40,7 @@ app.post('/api/users', (req, res) => {
     return res.status(400).json({ error: 'name and email are required' });
   }
   const user = users.create({ name, email, role });
+  logger.info({ userId: user.id }, 'user created');
   res.status(201).json({ data: user });
 });
 
@@ -50,12 +54,13 @@ app.delete('/api/users/:id', (req, res) => {
   if (!deleted) {
     return res.status(404).json({ error: 'User not found' });
   }
+  logger.info({ userId: id }, 'user deleted');
   res.status(204).send();
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`); // eslint-disable-line no-console
+  logger.info({ port: PORT }, 'server started');
 });
 
 module.exports = app;

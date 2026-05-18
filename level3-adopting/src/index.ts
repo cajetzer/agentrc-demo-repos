@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
+import pino from 'pino';
 import * as users from './users';
 
+const logger = pino({ level: process.env.LOG_LEVEL || 'info' });
 const app = express();
 
 app.use(helmet());
@@ -37,6 +39,7 @@ app.post('/api/users', (req: Request, res: Response) => {
     return res.status(400).json({ error: 'name and email are required' });
   }
   const user = users.create({ name, email, role: role as 'admin' | 'user' | undefined });
+  logger.info({ userId: user.id }, 'user created');
   return res.status(201).json({ data: user });
 });
 
@@ -50,12 +53,13 @@ app.delete('/api/users/:id', (req: Request, res: Response) => {
   if (!deleted) {
     return res.status(404).json({ error: 'User not found' });
   }
+  logger.info({ userId: id }, 'user deleted');
   return res.status(204).send();
 });
 
 const PORT = parseInt(process.env.PORT ?? '3000', 10);
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`); // eslint-disable-line no-console
+  logger.info({ port: PORT }, 'server started');
 });
 
 export default app;

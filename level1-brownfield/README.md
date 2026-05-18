@@ -24,6 +24,8 @@ npm run format   # Format code
 | GET | /health | Health check |
 | GET | /api/users | List all users |
 | GET | /api/users/:id | Get user by ID |
+| POST | /api/users | Create a user |
+| DELETE | /api/users/:id | Delete a user |
 
 ## Contributing
 
