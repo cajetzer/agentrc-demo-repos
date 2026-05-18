@@ -1,0 +1,24 @@
+{
+  "servers": {
+    // Example: connect Copilot to your GitHub repo for context-aware suggestions
+    // "github": {
+    //   "type": "http",
+    //   "url": "https://api.githubcopilot.com/mcp/",
+    //   "gallery": true
+    // },
+
+    // Example: connect to a local dev database
+    // "postgres": {
+    //   "type": "stdio",
+    //   "command": "npx",
+    //   "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://localhost/acme_dev"]
+    // },
+
+    // Example: connect to Playwright for browser automation in tests
+    // "playwright": {
+    //   "type": "stdio",
+    //   "command": "npx",
+    //   "args": ["@playwright/mcp@latest"]
+    // }
+  }
+}

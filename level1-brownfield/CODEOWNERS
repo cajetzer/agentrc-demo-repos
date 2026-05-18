@@ -1,0 +1,6 @@
+# Default owners for everything
+* @acme/backend-team
+
+# Security-sensitive files
+.github/ @acme/platform-team
+package*.json @acme/platform-team

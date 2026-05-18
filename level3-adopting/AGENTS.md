@@ -3,8 +3,9 @@
 ## Build Commands
 ```bash
 npm install      # Install dependencies
-npm run build    # Compile TypeScript
-npm start        # Start server (port 3000)
+npm run build    # Compile TypeScript → dist/
+npm start        # Start server (requires build first)
+npm run dev      # Start with ts-node (development)
 ```
 
 ## Test Commands
@@ -14,11 +15,12 @@ npm test -- --watch         # Watch mode
 npm test -- -t "user"       # Run tests matching "user"
 ```
 
-## Lint Commands
+## Lint & Type Check Commands
 ```bash
 npm run lint               # Run ESLint
 npm run lint -- --fix      # Auto-fix issues
-npm run typecheck          # TypeScript check
+npm run typecheck          # TypeScript check (no emit)
+npm run format             # Prettier format
 ```
 
 ## PR Conventions
@@ -30,14 +32,17 @@ npm run typecheck          # TypeScript check
 ## Common Patterns
 
 ### Adding a new endpoint
-1. Add route handler in `src/index.js`
-2. Add input validation
-3. Add tests in `src/index.test.js`
+1. Add route handler in `src/index.ts` with Request/Response types
+2. Add or update data layer in `src/users.ts`
+3. Add tests in `src/index.test.ts`
 4. Update README.md API table
 
 ### Error handling
-```javascript
+```typescript
 if (!isValid(input)) {
   return res.status(400).json({ error: 'Description of error' });
 }
 ```
+
+### Response shape
+All endpoints return `{ data: ... }` on success or `{ error: "..." }` on failure.
