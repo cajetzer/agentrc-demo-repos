@@ -10,9 +10,21 @@ Most enterprise repos are like `level1-brownfield`: great engineering practices,
 
 ## Quick Setup
 
+> **⚠️ Do not use `npm install -g @microsoft/agentrc`** — the npm package is stale (v2.0.1-0) and has a known ESM bug. Use `npx` to run directly from the GitHub source:
+
 ```bash
-# Install agentrc once
-npm install -g @microsoft/agentrc
+# Run any agentrc command via npx (no install needed)
+npx github:microsoft/agentrc <command>
+```
+
+**Alternative — clone and link for offline/repeated use:**
+
+```bash
+git clone https://github.com/microsoft/agentrc.git
+cd agentrc
+npm install
+npm run build
+npm link
 ```
 
 ---
@@ -23,15 +35,15 @@ npm install -g @microsoft/agentrc
 
 ```bash
 # A healthy brownfield repo — but AI Tooling is 0%
-agentrc readiness level1-brownfield --visual
+npx github:microsoft/agentrc readiness level1-brownfield --visual
 # Expected: strong Repo Health, 0% AI Tooling
 
 # A repo with hand-written instructions — marginal AI improvement
-agentrc readiness level2-documented --visual
+npx github:microsoft/agentrc readiness level2-documented --visual
 # Expected: same Repo Health, ~13% AI Tooling
 
 # A repo with full AI adoption — but agentrc finds an issue
-agentrc readiness level3-adopting --visual
+npx github:microsoft/agentrc readiness level3-adopting --visual
 # Expected: strong scores, but AI Tooling flags diverging instruction files
 ```
 
@@ -41,23 +53,23 @@ agentrc readiness level3-adopting --visual
 cd level1-brownfield
 
 # Preview what agentrc will generate
-agentrc init --dry-run
+npx github:microsoft/agentrc init --dry-run
 
 # Generate AGENTS.md + agentrc.eval.json
-agentrc init
+npx github:microsoft/agentrc init
 ```
 
 ### 3. Evaluate — test if the instructions actually help
 
 ```bash
 # Run immediately after init — tests instruction quality live
-agentrc eval
+npx github:microsoft/agentrc eval
 ```
 
 ### 4. Re-measure — see the improvement
 
 ```bash
-agentrc readiness --visual
+npx github:microsoft/agentrc readiness --visual
 # AI Tooling jumps from 0% → significantly higher
 ```
 
@@ -71,7 +83,7 @@ cd ../level3-adopting
 cp AGENTS.md .github/copilot-instructions.md
 
 # Re-run — consistency check now passes
-agentrc readiness --visual
+npx github:microsoft/agentrc readiness --visual
 ```
 
 ---
@@ -120,6 +132,37 @@ Add a readiness gate to your CI pipeline so AI context doesn't drift as the code
 ```
 
 This fails the build if the repo drops below Level 2 — enforcing a minimum AI context standard across PRs.
+
+---
+
+## Troubleshooting
+
+### `Dynamic require of "util" is not supported`
+
+The npm package `@microsoft/agentrc` is stale (v2.0.1-0). Use `npx github:microsoft/agentrc` instead — see [Quick Setup](#quick-setup).
+
+### `does not support '--headless'`
+
+If you have the standalone Copilot CLI installed (via `npm install -g @anthropic/copilot` or similar), it conflicts with the VS Code-bundled CLI that agentrc requires. The standalone CLI doesn't support SDK server mode.
+
+**Fix:** Set `AGENTRC_COPILOT_CLI_PATH` to point to the VS Code-bundled Copilot CLI:
+
+```powershell
+# PowerShell — set permanently (user-level)
+[System.Environment]::SetEnvironmentVariable('AGENTRC_COPILOT_CLI_PATH', "$env:APPDATA\Code\User\globalStorage\github.copilot-chat\copilotCli\copilot.bat", 'User')
+```
+
+```bash
+# Bash/Zsh — add to ~/.bashrc or ~/.zshrc
+export AGENTRC_COPILOT_CLI_PATH="$HOME/.vscode/extensions/github.copilot-chat-*/copilotCli/copilot"
+```
+
+Or for a one-time run:
+
+```powershell
+$env:AGENTRC_COPILOT_CLI_PATH = "$env:APPDATA\Code\User\globalStorage\github.copilot-chat\copilotCli\copilot.bat"
+npx github:microsoft/agentrc init
+```
 
 ---
 
