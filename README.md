@@ -12,7 +12,7 @@ Most enterprise repos are like `level1-brownfield`: great engineering practices,
 
 ```bash
 # Install agentrc once
-npm install -g github:microsoft/agentrc
+npm install -g @microsoft/agentrc
 ```
 
 ---
